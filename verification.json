@@ -1,0 +1,192 @@
+{
+  "captured_on": "2026-10-03",
+  "baseline": "official onlyoffice/documentserver:9.4.0",
+  "image_digest": "sha256:e3da62a847b9a5d51a11f73cfea1d9c13c3be3809614490d4edddcf01dcf919b",
+  "sdkjs_commit": "fef3dd407bd1bbac1d74c77160f42aedfeb85353",
+  "web_apps_commit": "d588463c251fc17e5c31d5c0bc18d712e271331d",
+  "browser": "Chromium 153.0.8010.52 (Arch Linux)",
+  "viewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "main_ui_builds": [
+    "documenteditor",
+    "spreadsheeteditor",
+    "presentationeditor",
+    "pdfeditor"
+  ],
+  "mobile_ui_builds": [
+    "documenteditor",
+    "spreadsheeteditor",
+    "presentationeditor"
+  ],
+  "sdk_checks": {
+    "web": {
+      "word": 152,
+      "cell": 152,
+      "slide": 152,
+      "pdf": 152
+    },
+    "desktop": {
+      "word": 152,
+      "cell": 152,
+      "slide": 152,
+      "pdf": 152
+    },
+    "mobile": {
+      "word": 152,
+      "cell": 152,
+      "slide": 152
+    },
+    "failed": 0
+  },
+  "live_editors": {
+    "word": {
+      "before_structural_api": false,
+      "after_structural_api": true,
+      "applied_nodes": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ],
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1440,
+            "height": 960
+          }
+        ],
+        "format": {
+          "duration": "24.250000"
+        }
+      }
+    },
+    "cell": {
+      "before_structural_api": false,
+      "after_structural_api": true,
+      "applied_nodes": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ],
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1440,
+            "height": 960
+          }
+        ],
+        "format": {
+          "duration": "23.666667"
+        }
+      }
+    },
+    "slide": {
+      "before_structural_api": false,
+      "after_structural_api": true,
+      "applied_nodes": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ],
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1440,
+            "height": 960
+          }
+        ],
+        "format": {
+          "duration": "24.833008"
+        }
+      }
+    },
+    "pdf": {
+      "before_structural_api": false,
+      "after_structural_api": true,
+      "applied_nodes": [
+        "",
+        "",
+        "",
+        "Release"
+      ],
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1440,
+            "height": 960
+          }
+        ],
+        "format": {
+          "duration": "24.583333"
+        }
+      }
+    }
+  },
+  "saved_office_roundtrips": {
+    "docx": {
+      "outline": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ],
+      "visible_text": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ]
+    },
+    "xlsx": {
+      "outline": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ],
+      "visible_text": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ]
+    },
+    "pptx": {
+      "outline": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ],
+      "visible_text": [
+        "Plan",
+        "Build",
+        "Review",
+        "Release"
+      ]
+    }
+  },
+  "limitations": [
+    "Baseline is stock 9.4.0, not an exact parent-commit build.",
+    "PDF capture verifies editing in an active session; saved PDF SmartArt roundtrip is not verified.",
+    "Mobile UI bundles built; no live mobile recording.",
+    "Native Desktop Editors shell and standalone native iOS/Android apps not built.",
+    "Live multi-client collaboration not verified."
+  ]
+}
