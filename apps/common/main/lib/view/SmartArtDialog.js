@@ -14,6 +14,7 @@
             up: 'Move up', down: 'Move down', indent: 'Demote', outdent: 'Promote',
             assistant: 'Assistant', apply: 'Apply', cancel: 'Cancel',
             error: 'The diagram could not be updated. This layout may require fewer nodes or a different hierarchy. Check that the diagram is still selected and editable.',
+            changed: 'The diagram changed while you were editing. Close this dialog and reopen it to load the latest version.',
             node: 'Node'
         }, options && options.labels);
         var nodes = outline.nodes.map(function (node) { return Object.assign({}, node); });
@@ -24,6 +25,9 @@
         var overlay = document.createElement('div');
         overlay.style.cssText = 'position:fixed;top:0;right:0;bottom:0;left:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);';
         var previousFocus = document.activeElement;
+        var notifications = window.Common && Common.NotificationCenter;
+        var modalState = window.Common && Common.Utils && Common.Utils.ModalWindow;
+        var modal = {isVisible: function () { return !closed; }};
         dialog.setAttribute('role', 'dialog');
         dialog.setAttribute('aria-modal', 'true');
         dialog.setAttribute('aria-label', labels.title);
@@ -47,7 +51,11 @@
             closed = true;
             dialog.remove();
             overlay.remove();
-            api.asc_enableKeyEvents(true);
+            if (notifications) {
+                notifications.trigger('modal:hide', modal);
+                notifications.trigger('modal:close', modal, !modalState || !modalState.isVisible());
+            }
+            api.asc_enableKeyEvents(!modalState || !modalState.isVisible());
             if (previousFocus && previousFocus.isConnected) previousFocus.focus();
             if (options && options.onClose) options.onClose();
         }
@@ -159,8 +167,8 @@
             busy = true;
             Array.from(dialog.querySelectorAll('button, textarea')).forEach(function (element) { element.disabled = true; });
             try {
-                if (await api.asc_setSmartArtOutline(outline.id, nodes)) close();
-                else status.textContent = labels.error;
+                if (await api.asc_setSmartArtOutline(outline.id, nodes, outline.nodes)) close();
+                else status.textContent = JSON.stringify(api.asc_getSmartArtOutline()) === JSON.stringify(outline) ? labels.error : labels.changed;
             } catch (error) {
                 status.textContent = labels.error;
                 console.error('SmartArt editing failed', error);
@@ -201,6 +209,7 @@
             overlay.appendChild(dialog);
             document.body.appendChild(overlay);
         }
+        if (notifications) notifications.trigger('modal:show', modal);
         api.asc_enableKeyEvents(false);
         render();
     }
