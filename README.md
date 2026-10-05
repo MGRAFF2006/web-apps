@@ -80,3 +80,11 @@ python tests/run-smartart.py --mobile word cell slide
 Build tests regenerate SDK assets; rebuild/restage normal SDK assets before returning to the live demo. Open `http://127.0.0.1:8782/demo?product=word&build=after&fixture=seed`, substituting `cell`, `slide`, or `pdf` (PDF uses `fixture=blank`). Use `build=before` for the baseline or `fixture=result` to inspect a saved Office result.
 
 Long jobs can run in tmux; the host session is `onlyoffice-demo-host`. To stop the demo: `docker stop onlyoffice-smartart-before onlyoffice-smartart-after`, then `tmux kill-session -t onlyoffice-demo-host`. This evidence branch keeps screenshots, videos, fixtures, and reproduction helpers separate from the feature PR diff; runtime assets and logs are ignored.
+
+## PR follow-up watcher
+
+`scripts/watch-prs.py` polls these two PRs every five minutes for new/edited review feedback, failing checks, conflicts, and closure. It wakes an existing T3 Code thread through the local authenticated orchestration API, waits while that thread is busy, and stops once both PRs are closed or merged. It never merges or closes a PR. The follow-up agent handles fixes under the original authorization.
+
+The local watcher runs in tmux session `onlyoffice-pr-watch`, with its log in `runtime/watch.log`. It requires T3 Code and this laptop to remain running; suspension delays checks. Its credential is held in ignored `runtime/.watch-auth.json`, scoped to `orchestration:read orchestration:operate`, and expires on 2026-11-04. Credentials and watcher state are excluded from this branch. Stop with `tmux kill-session -t onlyoffice-pr-watch` and revoke the matching T3 access session if desired.
+
+Check the watcher without sending a follow-up: `python scripts/watch-prs.py --self-test`, or `python scripts/watch-prs.py --thread-id YOUR_T3_THREAD_ID --once`. The independent review runs in T3 thread `c07b7091-de3f-42d2-a83e-aaa97a288e51`; its findings are written to ignored `runtime/review-findings.json` before this implementation thread addresses them.
