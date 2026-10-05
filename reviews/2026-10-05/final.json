@@ -1,0 +1,212 @@
+{
+  "status": "complete",
+  "sdk_head": "7ebea40b1b447a05d2f8ba10142fa6a77be8d6e4",
+  "ui_head": "d6aa77288eafd7d35e883e5c76d6acaf9176c11f",
+  "source_state": {
+    "working_trees": "Both clean before and after verification.",
+    "ui_blob": "663e00fa825ba69bc54db12348b47d1b16745a5a",
+    "ui_review": "Exactly the source blob verified in review-recheck.json.",
+    "sdk_delta": "Reviewed all changes since 6bb2931: spacing.Copy(), Merge(explicit later-paragraph properties), and the extended regression. Inspected existing ParaSpacing.Copy/Merge and Paragraph.Set_Spacing contracts. No concrete regression found.",
+    "asset_verification": "Current SmartArtEditing.js and SmartArtTree.js exactly match substrings in all three deployed SDK bundles. Used new cache-busted script URLs plus no-store scratch serving. Browser checks confirmed loaded spacing.Merge implementation, expectedNodes guard and UI opening-snapshot argument. No rebuild or deployed-file changes performed."
+  },
+  "resolved_issue_ids": [
+    "R1",
+    "R2",
+    "R3",
+    "R4"
+  ],
+  "findings": [],
+  "verification": [
+    {
+      "id": "R1",
+      "status": "resolved",
+      "method": "Fresh Word SDK and actual source dialog in T3 Chromium; injected text changes and node additions between opening and Apply.",
+      "observed": [
+        {
+          "history": 0,
+          "mode": "text",
+          "open": true,
+          "preserved": true,
+          "status": "The diagram changed while you were editing. Close this dialog and reopen it to load the latest version."
+        },
+        {
+          "history": 0,
+          "mode": "addition",
+          "open": true,
+          "preserved": true,
+          "status": "The diagram changed while you were editing. Close this dialog and reopen it to load the latest version."
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "status": "resolved",
+      "method": "Fresh Cell SDK objects with the real controller protection methods and a protected worksheet host. Checked internal-shape and whole-diagram selection, then explicit text unlocks.",
+      "observed": {
+        "currentSource": true,
+        "protectedCases": [
+          {
+            "applied": false,
+            "history": 0,
+            "mode": "internal",
+            "unchanged": true
+          },
+          {
+            "applied": false,
+            "history": 0,
+            "mode": "whole",
+            "unchanged": true
+          }
+        ],
+        "unlockedApplied": true,
+        "unlocksPreserved": true
+      },
+      "additional_evidence": "Font/object-lock protection races were independently verified in the preceding recheck; the protection implementation is unchanged in this delta."
+    },
+    {
+      "id": "R3",
+      "status": "resolved",
+      "method": "Independently reran the remaining sparse-paragraph reproduction in Word and Slide. Four-paragraph fixture: explicit Line 2 with Before 4/After 7 and bold; explicit Line 3 and italic; Before 12/After 18 with unspecified Line; explicit zero Before/After and false auto-spacing flags. Checked model/drawing across unchanged Apply, add, reorder and every operation's Undo/Redo, then PPTY reopen with 0.01 spacing tolerance.",
+      "observed": [
+        {
+          "product": "word",
+          "loaded_guards": {
+            "snapshotGuard": true,
+            "spacingMerge": true,
+            "uiSnapshot": true
+          },
+          "operations": [
+            {
+              "after": true,
+              "applied": true,
+              "mode": "unchanged",
+              "redo": true,
+              "undo": true
+            },
+            {
+              "after": true,
+              "applied": true,
+              "mode": "add",
+              "redo": true,
+              "undo": true
+            },
+            {
+              "after": true,
+              "applied": true,
+              "mode": "reorder",
+              "redo": true,
+              "undo": true
+            }
+          ],
+          "ppty_pass": true,
+          "reopened_sparse_drawing": {
+            "After": 17.99872223356,
+            "Before": 11.99797222978,
+            "Line": 2,
+            "LineRule": 1
+          },
+          "reopened_sparse_model": {
+            "After": 17.99872223356,
+            "Before": 11.99797222978
+          },
+          "bold": true,
+          "italic": true,
+          "zero_spacing_preserved": true
+        },
+        {
+          "product": "slide",
+          "loaded_guards": {
+            "snapshotGuard": true,
+            "spacingMerge": true,
+            "uiSnapshot": true
+          },
+          "operations": [
+            {
+              "after": true,
+              "applied": true,
+              "mode": "unchanged",
+              "redo": true,
+              "undo": true
+            },
+            {
+              "after": true,
+              "applied": true,
+              "mode": "add",
+              "redo": true,
+              "undo": true
+            },
+            {
+              "after": true,
+              "applied": true,
+              "mode": "reorder",
+              "redo": true,
+              "undo": true
+            }
+          ],
+          "ppty_pass": true,
+          "reopened_sparse_drawing": {
+            "After": 17.99872223356,
+            "Before": 11.99797222978,
+            "Line": 2,
+            "LineRule": 1
+          },
+          "reopened_sparse_model": {
+            "After": 17.99872223356,
+            "Before": 11.99797222978
+          },
+          "bold": true,
+          "italic": true,
+          "zero_spacing_preserved": true
+        }
+      ],
+      "serialization_note": "Explicit false auto-spacing flags are omitted on PPTY reopen; checks compare their default false behavior rather than requiring an explicit false property. Numeric spacing and rich-text assertions all pass."
+    },
+    {
+      "id": "R4",
+      "status": "resolved",
+      "method": "Actual source dialog and real Presentation Main.js modal/blur handlers, Backbone event bus and Common.Utils.ModalWindow counter in an isolated T3 browser host. Actual preview clicks on Assistant and Cancel.",
+      "while_open": {
+        "calls": [
+          false,
+          false
+        ],
+        "focused": "TEXTAREA",
+        "modal": true,
+        "open": true
+      },
+      "after_cancel": {
+        "keysEnabled": true,
+        "modal": false,
+        "open": false
+      }
+    }
+  ],
+  "evidence_assessment": {
+    "logs_read": [
+      "runtime/spacing-repro.log",
+      "runtime/spacing-web.log",
+      "runtime/spacing-desktop.log",
+      "runtime/spacing-mobile.log",
+      "runtime/spacing-build.log",
+      "runtime/review-build.log"
+    ],
+    "results": "Pre-fix log fails the sparse-spacing regression. Post-fix logs report 152/152 for each of 11 configurations; spacing-tests.exit=0. Normal SDK rebuild completed. UI build log ends with all four main and three mobile builds complete; review-build.exit=0.",
+    "scope": "Logs and new regression inspected; these full build/suite runs were not repeated independently. Fresh focused reproductions above were performed independently."
+  },
+  "limitations": [
+    "Browser checks used real SDK objects and UI code with isolated editor hosts, not fresh full DocumentServer sessions.",
+    "No live multi-client collaboration, native shell/bridge build, live mobile capture, Office-format save/reopen or saved-PDF roundtrip in this final pass. Previously documented gaps remain."
+  ],
+  "preserved_reports": {
+    "review-findings.json": "350eed7f7d5a0ff27f9e13450ad50ee4091303fcd9bcf1fdfebea30cdd5925cc",
+    "review-recheck.json": "42a164c94716118384fb973ec4ba88c3e5fddce7c21b8710e0b1f663bb057212"
+  },
+  "pull_requests": {
+    "both_linked_verified": true,
+    "urls": [
+      "https://github.com/ONLYOFFICE/sdkjs/pull/4893",
+      "https://github.com/ONLYOFFICE/web-apps/pull/3227"
+    ]
+  },
+  "summary": "All original findings R1-R4 are resolved at the exact reviewed heads. The remaining sparse-spacing case passes independently in Word and Slide, including history and PPTY. No new concrete finding from the small delta. Prior reports preserved; tracked code, git state, PRs, services and UI composer drafts untouched."
+}

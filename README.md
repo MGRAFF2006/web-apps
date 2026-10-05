@@ -81,6 +81,10 @@ Build tests regenerate SDK assets; rebuild/restage normal SDK assets before retu
 
 Long jobs can run in tmux; the host session is `onlyoffice-demo-host`. To stop the demo: `docker stop onlyoffice-smartart-before onlyoffice-smartart-after`, then `tmux kill-session -t onlyoffice-demo-host`. This evidence branch keeps screenshots, videos, fixtures, and reproduction helpers separate from the feature PR diff; runtime assets and logs are ignored.
 
+## Review fixes
+
+The [2026-10-05 review report](reviews/2026-10-05/README.md) records the four independently reviewed fixes, exact SDK/UI commits, passing checks in all 11 SDK configurations, and seven successful UI builds. All four findings were resolved and independently rechecked. The recordings above retain their original 2026-10-03 commits.
+
 ## PR follow-up watcher
 
 `scripts/watch-prs.py` polls these two PRs every five minutes for new/edited review feedback, failing checks, conflicts, and closure. It wakes an existing T3 Code thread through the local authenticated orchestration API, waits while that thread is busy, and stops once both PRs are closed or merged. It never merges or closes a PR. The follow-up agent handles fixes under the original authorization.

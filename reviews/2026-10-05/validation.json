@@ -1,0 +1,85 @@
+{
+  "verified_at": "2026-10-05T12:03:41.813960+02:00",
+  "heads": {
+    "sdkjs": "7ebea40b1b447a05d2f8ba10142fa6a77be8d6e4",
+    "web-apps": "d6aa77288eafd7d35e883e5c76d6acaf9176c11f"
+  },
+  "smartart_tests": {
+    "web": {
+      "cell": {
+        "passed": 152,
+        "total": 152
+      },
+      "word": {
+        "passed": 152,
+        "total": 152
+      },
+      "slide": {
+        "passed": 152,
+        "total": 152
+      },
+      "pdf": {
+        "passed": 152,
+        "total": 152
+      }
+    },
+    "desktop": {
+      "cell": {
+        "passed": 152,
+        "total": 152
+      },
+      "word": {
+        "passed": 152,
+        "total": 152
+      },
+      "slide": {
+        "passed": 152,
+        "total": 152
+      },
+      "pdf": {
+        "passed": 152,
+        "total": 152
+      }
+    },
+    "mobile": {
+      "word": {
+        "passed": 152,
+        "total": 152
+      },
+      "cell": {
+        "passed": 152,
+        "total": 152
+      },
+      "slide": {
+        "passed": 152,
+        "total": 152
+      }
+    }
+  },
+  "regression_failed_before_fix": "rendered paragraph spacing lost",
+  "normal_sdk_assets_rebuilt_after_tests": true,
+  "production_ui_builds": {
+    "main": [
+      "documenteditor",
+      "spreadsheeteditor",
+      "presentationeditor",
+      "pdfeditor"
+    ],
+    "mobile": [
+      "documenteditor",
+      "spreadsheeteditor",
+      "presentationeditor"
+    ],
+    "completed_at": "2026-10-05T10:34:53.648725+02:00",
+    "shared_dialog_exact_source_match": true,
+    "mobile_conflict_guard_message_shipped": {
+      "documenteditor": true,
+      "spreadsheeteditor": true,
+      "presentationeditor": true
+    }
+  },
+  "limitations": [
+    "Existing 2026-10-03 recordings remain pinned to their recorded commits; no new full DocumentServer capture was made for these review fixes.",
+    "No native shell/bridge build or native iOS/Android UI integration; no live mobile or multi-client collaboration run; saved PDF SmartArt roundtrip remains unverified."
+  ]
+}

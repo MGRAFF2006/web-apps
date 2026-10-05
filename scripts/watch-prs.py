@@ -47,16 +47,19 @@ def snapshot():
     result = {}
     for repo, number in PRS:
         pr = gh("pr", "view", str(number), "--repo", repo, "--json",
-                "state,mergeable,comments,reviews,statusCheckRollup")
+                "headRefOid,state,mergeable,comments,reviews,statusCheckRollup")
         pages = gh("api", f"repos/{repo}/pulls/{number}/comments", "--paginate", "--slurp")
         failures = []
+        failed_checks = []
         for check in pr["statusCheckRollup"]:
             outcome = check.get("conclusion") or check.get("state")
             if outcome in ("FAILURE", "ERROR", "TIMED_OUT", "ACTION_REQUIRED", "CANCELLED", "STARTUP_FAILURE", "STALE"):
                 failures.append(check.get("name") or check.get("context"))
+                failed_checks.append(check)
         result[f"https://github.com/{repo}/pull/{number}"] = {
             "state": pr["state"], "conflict": pr["mergeable"] == "CONFLICTING",
             "failures": sorted(failures), "comments": comments(pr["comments"]),
+            "failedRevision": hashlib.sha256(json.dumps([pr["headRefOid"], failed_checks], sort_keys=True).encode()).hexdigest() if failures else None,
             "reviews": comments(pr["reviews"]),
             "inline": comments([item for page in pages for item in page]),
         }
@@ -70,7 +73,7 @@ def changes(old, new):
         for kind in ("comments", "reviews", "inline"):
             if any(previous[kind].get(key) != value for key, value in current[kind].items()):
                 notices.append(f"{url}: new or updated {kind}")
-        if current["failures"] and current["failures"] != previous["failures"]:
+        if current["failures"] and (current["failures"] != previous["failures"] or current.get("failedRevision") != previous.get("failedRevision")):
             notices.append(f"{url}: failing checks: {', '.join(current['failures'])}")
         if current["conflict"] and not previous["conflict"]:
             notices.append(f"{url}: merge conflict")
@@ -111,6 +114,9 @@ if args.self_test:
     changed = json.loads(json.dumps(baseline))
     changed["pr"].update(failures=["build"], conflict=True, state="MERGED")
     assert len(changes(baseline, changed)) == 3
+    retry = json.loads(json.dumps(changed))
+    retry["pr"]["failedRevision"] = "another failed run on a newer commit"
+    assert changes(changed, retry) == ["pr: failing checks: build"]
     assert not changes(baseline, dict(pr=dict(baseline["pr"], failures=[])))
     print("Watcher regression checks passed.")
     raise SystemExit(0)
