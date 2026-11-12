@@ -59,7 +59,7 @@ jobs:
             run: |
                 cd web-apps/build
                 npm install
-                grunt
+                ./node_modules/.bin/grunt
 
           - name: Apps files
             id: apps-files
