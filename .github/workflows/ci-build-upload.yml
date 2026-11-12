@@ -15,7 +15,7 @@ jobs:
         steps:
 
           - name: Checkout Web-Apps
-            uses: actions/checkout@v3
+            uses: actions/checkout@v5
             with:
                 ref: ${{github.ref}}
                 path: 'web-apps'
@@ -42,7 +42,7 @@ jobs:
               fi
 
           - name: Checkout SDKJS
-            uses: actions/checkout@v3
+            uses: actions/checkout@v5
             with:
                 repository: onlyoffice/sdkjs
                 token: ${{ secrets.READ_PAT || github.token }}
@@ -51,7 +51,7 @@ jobs:
                 fetch-depth: '1'
               
           - name: Use Node.js 16
-            uses: actions/setup-node@v3
+            uses: actions/setup-node@v5
             with:
                 node-version: 16   
 
