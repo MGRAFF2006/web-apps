@@ -58,7 +58,6 @@ jobs:
           - name: Build
             run: |
                 cd web-apps/build
-                ./sprites.sh
                 npm install
                 grunt
 
