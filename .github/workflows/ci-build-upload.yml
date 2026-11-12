@@ -50,10 +50,10 @@ jobs:
                 path: 'sdkjs'
                 fetch-depth: '1'
               
-          - name: Use Node.js 16
+          - name: Use Node.js 24
             uses: actions/setup-node@v5
             with:
-                node-version: 16   
+                node-version: 24
 
           - name: Build
             run: |
