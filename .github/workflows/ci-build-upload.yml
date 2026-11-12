@@ -23,7 +23,7 @@ jobs:
           - name: Path filter for help
             if: (startsWith(github.ref, 'refs/heads/release/') ||
              startsWith(github.ref, 'refs/heads/hotfix/'))
-            uses: dorny/paths-filter@v2
+            uses: dorny/paths-filter@v4
             id: changes
             with:
               working-directory: 'web-apps'
@@ -68,7 +68,7 @@ jobs:
 
           - name: Upload artifact
             if: steps.apps-files.outcome == 'success'
-            uses: actions/upload-artifact@v4
+            uses: actions/upload-artifact@v7
             with:
               name: apps-artifact
               path: apps.tar
@@ -81,7 +81,7 @@ jobs:
         steps:
 
           - name: Download artifact
-            uses: actions/download-artifact@v4
+            uses: actions/download-artifact@v8
             with:
               name: apps-artifact
 
@@ -90,7 +90,7 @@ jobs:
               tar -xvf apps.tar
 
           - name: Configure AWS Credentials
-            uses: aws-actions/configure-aws-credentials@v2
+            uses: aws-actions/configure-aws-credentials@v6.3.0
             with:
               aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
               aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
