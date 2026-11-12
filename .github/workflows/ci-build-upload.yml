@@ -58,9 +58,8 @@ jobs:
           - name: Build
             run: |
                 cd web-apps/build
-                ./sprites.sh
                 npm install
-                grunt
+                ./node_modules/.bin/grunt
 
           - name: Apps files
             id: apps-files
